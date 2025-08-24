@@ -750,7 +750,7 @@ def generate_html():
         .header {{
             background: #ffffff;
             color: #2c3e50;
-            padding: 30px 0;
+            padding: 20px 0;
             border-bottom: 1px solid #e9ecef;
         }}
         
@@ -777,7 +777,7 @@ def generate_html():
             font-size: 1em;
             color: #6c757d;
             line-height: 1.6;
-            max-width: 900px;
+            max-width: 100%;
         }}
         
         .header-main {{
@@ -839,36 +839,38 @@ def generate_html():
         
         .filters {{
             background: #f8f9fa;
-            padding: 25px;
-            margin: 30px auto;
+            padding: 15px;
+            margin: 20px auto;
             max-width: 1200px;
             border-radius: 8px;
             border: 1px solid #e9ecef;
             display: flex;
-            gap: 25px;
-            align-items: end;
+            gap: 20px;
+            align-items: center;
         }}
         
         .filter-group {{
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
         }}
         
         .filter-group label {{
             font-weight: 600;
             color: #495057;
             font-size: 0.9em;
+            white-space: nowrap;
         }}
         
         .filter-group select {{
-            padding: 12px 16px;
+            padding: 8px 12px;
             border: 1px solid #ced4da;
             border-radius: 6px;
-            font-size: 1em;
+            font-size: 0.9em;
             background: white;
             transition: border-color 0.2s, box-shadow 0.2s;
-            min-width: 220px;
+            min-width: 180px;
         }}
         
         .filter-group select:focus {{
@@ -887,15 +889,15 @@ def generate_html():
             background: white;
             border-radius: 8px;
             border: 1px solid #e9ecef;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             overflow: hidden;
         }}
         
         .table-header {{
             background: #495057;
             color: white;
-            padding: 18px 20px;
-            font-size: 1.1em;
+            padding: 12px 16px;
+            font-size: 1em;
             font-weight: 600;
         }}
         
@@ -909,7 +911,7 @@ def generate_html():
         }}
         
         th, td {{
-            padding: 14px 16px;
+            padding: 10px 12px;
             text-align: left;
             border-bottom: 1px solid #e9ecef;
         }}
