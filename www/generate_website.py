@@ -1001,8 +1001,15 @@ def generate_html():
             .header-main {{
                 flex-direction: row;
                 align-items: center;
-                justify-content: center;
-                gap: 15px;
+                justify-content: space-between;
+                gap: 10px;
+            }}
+            
+            .header h1 {{
+                font-size: 1.8em;
+                text-align: center;
+                margin: 0;
+                flex: 1;
             }}
             
             .header h1 {{
@@ -1098,12 +1105,15 @@ def generate_html():
             .header-main {{
                 flex-direction: row;
                 align-items: center;
-                justify-content: center;
-                gap: 12px;
+                justify-content: space-between;
+                gap: 8px;
             }}
             
             .header h1 {{
                 font-size: 1.5em;
+                text-align: center;
+                margin: 0;
+                flex: 1;
             }}
             
             .logo {{
