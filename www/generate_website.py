@@ -920,15 +920,6 @@ def generate_html():
             padding: 12px 16px;
             font-size: 1em;
             font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }}
-        
-        .table-header span:last-child {{
-            font-size: 0.75em;
-            color: #adb5bd;
-            font-weight: 400;
         }}
         
         .table-content {{
@@ -1095,8 +1086,8 @@ def generate_html():
                 locationHeader: "Sted",
                 men: "Menn",
                 women: "Kvinner",
-                top10Men: "Topp 10 resultat - uansett øvelse og basseng - Menn",
-                top10Women: "Topp 10 resultat - uansett øvelse og basseng - Kvinner",
+                top10Men: "Beste resultater - Menn",
+                top10Women: "Beste resultater - Kvinner",
                 lastUpdated: "Sist oppdatert",
                 filterMessage: "Vennligst velg både øvelse og kjønn for å se resultater.",
                 noResultsMessage: "Ingen resultater funnet for de valgte filtrene."
@@ -1123,8 +1114,8 @@ def generate_html():
                 locationHeader: "Location",
                 men: "Men",
                 women: "Women",
-                top10Men: "Top 10 results - regardless of event and pool - Men",
-                top10Women: "Top 10 results - regardless of event and pool - Women",
+                top10Men: "Best results - Men",
+                top10Women: "Best results - Women",
                 lastUpdated: "Last updated",
                 filterMessage: "Please select both event and gender to see results.",
                 noResultsMessage: "No results found for the selected filters."
@@ -1243,7 +1234,6 @@ def generate_html():
                 maleTableDiv.innerHTML = `
                     <div class="table-header">
                         <span>${{translations[currentLanguage].top10Men}}</span>
-                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
                         <table>
@@ -1286,7 +1276,6 @@ def generate_html():
                 femaleTableDiv.innerHTML = `
                     <div class="table-header">
                         <span>${{translations[currentLanguage].top10Women}}</span>
-                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
                         <table>
