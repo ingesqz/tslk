@@ -432,7 +432,7 @@
         <div class="header-content">
             <div class="header-main">
                 <img src="logo.png" alt="TSLK Logo" class="logo">
-                <h1 id="mainTitle">TS&LK Klubbrekorder</h1>
+                <h1 id="mainTitle">Klubbrekorder</h1>
                 <div class="nav-buttons">
                     <!-- Logo click will return to best swimmers view -->
                 </div>
@@ -812,6 +812,22 @@
             document.getElementById('genderSelect').value = '';
             filterResults();
         });
+        
+        // Initialize page with current language
+        document.getElementById('mainTitle').textContent = translations[currentLanguage].mainTitle;
+        
+        // Update dropdown options
+        document.getElementById('allEvents').textContent = translations[currentLanguage].allEvents;
+        document.getElementById('allGenders').textContent = translations[currentLanguage].allGenders;
+        document.getElementById('maleOption').textContent = translations[currentLanguage].maleOption;
+        document.getElementById('femaleOption').textContent = translations[currentLanguage].femaleOption;
+        
+        // Update subtext elements
+        const shortText = document.querySelector('.subtext-short');
+        const fullText = document.querySelector('.subtext-full');
+        
+        shortText.innerHTML = `${translations[currentLanguage].headerSubtextShort} <a href="#" class="read-more-link" onclick="toggleSubtext(event)">${translations[currentLanguage].readMore}</a>`;
+        fullText.innerHTML = `${translations[currentLanguage].headerSubtextFull} <a href="#" class="read-less-link" onclick="toggleSubtext(event)">${translations[currentLanguage].readLess}</a>`;
         
         // Initial load
         filterResults();
