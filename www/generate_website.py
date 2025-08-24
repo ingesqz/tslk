@@ -999,9 +999,10 @@ def generate_html():
             }}
             
             .header-main {{
-                flex-direction: column;
+                flex-direction: row;
                 align-items: center;
-                gap: 10px;
+                justify-content: center;
+                gap: 15px;
             }}
             
             .header h1 {{
@@ -1094,6 +1095,13 @@ def generate_html():
         }}
         
         @media (max-width: 480px) {{
+            .header-main {{
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+            }}
+            
             .header h1 {{
                 font-size: 1.5em;
             }}
