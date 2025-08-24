@@ -51,6 +51,16 @@
             max-width: 100%;
         }
         
+        .read-more-link, .read-less-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .read-more-link:hover, .read-less-link:hover {
+            text-decoration: underline;
+        }
+        
         .header-main {
             display: flex;
             align-items: center;
@@ -298,7 +308,10 @@
                     <button class="language-btn" onclick="changeLanguage('en')">English</button>
                 </div>
             </div>
-            <div class="header-subtext" id="headerSubtext">Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.</div>
+            <div class="header-subtext" id="headerSubtext">
+                <span class="subtext-short">Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. <a href="#" class="read-more-link" onclick="toggleSubtext(event)">Les mer</a></span>
+                <span class="subtext-full" style="display: none;">Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024. <a href="#" class="read-less-link" onclick="toggleSubtext(event)">Les mindre</a></span>
+            </div>
         </div>
     </div>
     
@@ -334,7 +347,10 @@
         const translations = {
             no: {
                 mainTitle: "TS&LK Klubbrekorder",
-                headerSubtext: "Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.",
+                headerSubtextShort: "Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene.",
+                headerSubtextFull: "Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.",
+                readMore: "Les mer",
+                readLess: "Les mindre",
                 eventLabel: "Øvelse:",
                 genderLabel: "Kjønn:",
                 allEvents: "Velg øvelse",
@@ -359,7 +375,10 @@
             },
             en: {
                 mainTitle: "TS&LK Club Records",
-                headerSubtext: "This overview shows TS&LK's swimming club records through time. The data is retrieved from medley.no and in addition some older manual entries that medley.no has not registered have been added. The times shown for the athletes must be from when they represented TS&LK. I will try to update the list 1-2 times annually based on fresh results in Medley - I will not add fresh results, then you must wait for the next update. If anyone thinks something is wrong, old entries are missing etc. then send me an email at ingesqz@gmail.com. The points are based on FINA 2024.",
+                headerSubtextShort: "This overview shows TS&LK's swimming club records through time.",
+                headerSubtextFull: "This overview shows TS&LK's swimming club records through time. The data is retrieved from medley.no and in addition some older manual entries that medley.no has not registered have been added. The times shown for the athletes must be from when they represented TS&LK. I will try to update the list 1-2 times annually based on fresh results in Medley - I will not add fresh results, then you must wait for the next update. If anyone thinks something is wrong, old entries are missing etc. then send me an email at ingesqz@gmail.com. The points are based on FINA 2024.",
+                readMore: "Read more",
+                readLess: "Read less",
                 eventLabel: "Event:",
                 genderLabel: "Gender:",
                 allEvents: "Select event",
@@ -386,6 +405,20 @@
         
         let currentLanguage = 'no';
         
+        function toggleSubtext(event) {
+            event.preventDefault();
+            const shortText = document.querySelector('.subtext-short');
+            const fullText = document.querySelector('.subtext-full');
+            
+            if (shortText.style.display !== 'none') {
+                shortText.style.display = 'none';
+                fullText.style.display = 'inline';
+            } else {
+                shortText.style.display = 'inline';
+                fullText.style.display = 'none';
+            }
+        }
+        
         function changeLanguage(lang) {
             currentLanguage = lang;
             
@@ -400,7 +433,16 @@
             
             // Update all text elements
             document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
-            document.getElementById('headerSubtext').textContent = translations[lang].headerSubtext;
+            
+            // Update subtext elements
+            const shortText = document.querySelector('.subtext-short');
+            const fullText = document.querySelector('.subtext-full');
+            const readMoreLink = document.querySelector('.read-more-link');
+            const readLessLink = document.querySelector('.read-less-link');
+            
+            shortText.innerHTML = `${translations[lang].headerSubtextShort} <a href="#" class="read-more-link" onclick="toggleSubtext(event)">${translations[lang].readMore}</a>`;
+            fullText.innerHTML = `${translations[lang].headerSubtextFull} <a href="#" class="read-less-link" onclick="toggleSubtext(event)">${translations[lang].readLess}</a>`;
+            
             document.getElementById('eventLabel').textContent = translations[lang].eventLabel;
             document.getElementById('genderLabel').textContent = translations[lang].genderLabel;
             document.getElementById('allEvents').textContent = translations[lang].allEvents;
