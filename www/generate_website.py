@@ -1063,7 +1063,7 @@ def generate_html():
                 women: "Kvinner",
                 top10Men: "Topp 10 resultat - uansett øvelse og basseng - Menn",
                 top10Women: "Topp 10 resultat - uansett øvelse og basseng - Kvinner",
-                lastUpdated: "Sist oppdatert",
+                lastUpdated: "Sist oppdatert (oppdateres 1-2 ganger årlig)",
                 filterMessage: "Vennligst velg både øvelse og kjønn for å se resultater.",
                 noResultsMessage: "Ingen resultater funnet for de valgte filtrene."
             }},
@@ -1088,7 +1088,7 @@ def generate_html():
                 women: "Women",
                 top10Men: "Top 10 results - regardless of event and pool - Men",
                 top10Women: "Top 10 results - regardless of event and pool - Women",
-                lastUpdated: "Last updated",
+                lastUpdated: "Last updated (updated 1-2 times annually)",
                 filterMessage: "Please select both event and gender to see results.",
                 noResultsMessage: "No results found for the selected filters."
             }}
