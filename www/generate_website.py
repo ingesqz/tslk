@@ -99,11 +99,11 @@ def get_latest_file_date():
     grd_files = glob.glob(os.path.join(rawdata_folder, "grdRanking*.xlsx"))
     
     if not grd_files:
-        return datetime.now().strftime('%Y-%m-%d %H:%M')
+        return datetime.now().strftime('%d.%m.%Y')
     
     # Get the latest modification time
     latest_time = max(os.path.getmtime(f) for f in grd_files)
-    return datetime.fromtimestamp(latest_time).strftime('%Y-%m-%d %H:%M')
+    return datetime.fromtimestamp(latest_time).strftime('%d.%m.%Y')
 
 def generate_statistics_page(statistics_data, latest_date):
     """Generate a statistics page with comprehensive data overview."""
@@ -815,6 +815,12 @@ def generate_html():
             border-color: #007bff;
         }}
         
+        .last-updated-header {{
+            color: #6c757d;
+            font-size: 0.9em;
+            font-weight: 500;
+        }}
+        
         .nav-buttons {{
             display: flex;
             gap: 15px;
@@ -999,7 +1005,7 @@ def generate_html():
         <div class="header-content">
             <div class="header-main">
                 <img src="logo.png" alt="TSLK Logo" class="logo">
-                                                <h1 id="mainTitle">TS&LK Klubbrekorder</h1>
+                <h1 id="mainTitle">TS&LK Klubbrekorder</h1>
                 <div class="nav-buttons">
                     <!-- Logo click will return to best swimmers view -->
                 </div>
@@ -1007,6 +1013,7 @@ def generate_html():
                     <button class="language-btn active" onclick="changeLanguage('no')">Norsk</button>
                     <button class="language-btn" onclick="changeLanguage('en')">English</button>
                 </div>
+                <div class="last-updated-header" id="lastUpdatedHeader">Sist oppdatert: {latest_date}</div>
             </div>
             <div class="header-subtext" id="headerSubtext">Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.</div>
         </div>
@@ -1063,7 +1070,7 @@ def generate_html():
                 women: "Kvinner",
                 top10Men: "Topp 10 resultat - uansett øvelse og basseng - Menn",
                 top10Women: "Topp 10 resultat - uansett øvelse og basseng - Kvinner",
-                lastUpdated: "Sist oppdatert (oppdateres 1-2 ganger årlig)",
+                lastUpdated: "Sist oppdatert",
                 filterMessage: "Vennligst velg både øvelse og kjønn for å se resultater.",
                 noResultsMessage: "Ingen resultater funnet for de valgte filtrene."
             }},
@@ -1088,7 +1095,7 @@ def generate_html():
                 women: "Women",
                 top10Men: "Top 10 results - regardless of event and pool - Men",
                 top10Women: "Top 10 results - regardless of event and pool - Women",
-                lastUpdated: "Last updated (updated 1-2 times annually)",
+                lastUpdated: "Last updated",
                 filterMessage: "Please select both event and gender to see results.",
                 noResultsMessage: "No results found for the selected filters."
             }}
@@ -1117,6 +1124,7 @@ def generate_html():
             document.getElementById('allGenders').textContent = translations[lang].allGenders;
             document.getElementById('maleOption').textContent = translations[lang].maleOption;
             document.getElementById('femaleOption').textContent = translations[lang].femaleOption;
+            document.getElementById('lastUpdatedHeader').textContent = `${{translations[lang].lastUpdated}}: {latest_date}`;
             
             // Refresh results to update table headers and messages
             filterResults();
@@ -1258,11 +1266,7 @@ def generate_html():
                 container.appendChild(femaleTableDiv);
             }}
             
-            // Add last updated info
-            const lastUpdatedDiv = document.createElement('div');
-            lastUpdatedDiv.className = 'last-updated';
-            lastUpdatedDiv.innerHTML = `${{translations[currentLanguage].lastUpdated}}: {latest_date}`;
-            container.appendChild(lastUpdatedDiv);
+
         }}
         
         function showEventResults(selectedEvent, selectedGender) {{
@@ -1322,7 +1326,7 @@ def generate_html():
                                     `).join('')}}
                                 </tbody>
                             </table>
-                            <div class="last-updated">${{translations[currentLanguage].lastUpdated}}: {latest_date}</div>
+
                         </div>
                     `;
                     
