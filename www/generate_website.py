@@ -815,11 +815,7 @@ def generate_html():
             border-color: #007bff;
         }}
         
-        .last-updated-header {{
-            color: #6c757d;
-            font-size: 0.9em;
-            font-weight: 500;
-        }}
+
         
         .nav-buttons {{
             display: flex;
@@ -905,6 +901,9 @@ def generate_html():
             padding: 12px 16px;
             font-size: 1em;
             font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }}
         
         .table-content {{
@@ -1013,7 +1012,6 @@ def generate_html():
                     <button class="language-btn active" onclick="changeLanguage('no')">Norsk</button>
                     <button class="language-btn" onclick="changeLanguage('en')">English</button>
                 </div>
-                <div class="last-updated-header" id="lastUpdatedHeader">Sist oppdatert: {latest_date}</div>
             </div>
             <div class="header-subtext" id="headerSubtext">Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.</div>
         </div>
@@ -1124,7 +1122,6 @@ def generate_html():
             document.getElementById('allGenders').textContent = translations[lang].allGenders;
             document.getElementById('maleOption').textContent = translations[lang].maleOption;
             document.getElementById('femaleOption').textContent = translations[lang].femaleOption;
-            document.getElementById('lastUpdatedHeader').textContent = `${{translations[lang].lastUpdated}}: {latest_date}`;
             
             // Refresh results to update table headers and messages
             filterResults();
@@ -1191,7 +1188,10 @@ def generate_html():
                 const maleTableDiv = document.createElement('div');
                 maleTableDiv.className = 'results-table';
                 maleTableDiv.innerHTML = `
-                    <div class="table-header">${{translations[currentLanguage].top10Men}}</div>
+                    <div class="table-header">
+                        <span>${{translations[currentLanguage].top10Men}}</span>
+                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
+                    </div>
                     <div class="table-content">
                         <table>
                             <thead>
@@ -1231,7 +1231,10 @@ def generate_html():
                 const femaleTableDiv = document.createElement('div');
                 femaleTableDiv.className = 'results-table';
                 femaleTableDiv.innerHTML = `
-                    <div class="table-header">${{translations[currentLanguage].top10Women}}</div>
+                    <div class="table-header">
+                        <span>${{translations[currentLanguage].top10Women}}</span>
+                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
+                    </div>
                     <div class="table-content">
                         <table>
                             <thead>
@@ -1300,7 +1303,10 @@ def generate_html():
                     tableDiv.className = 'results-table';
                     
                     tableDiv.innerHTML = `
-                        <div class="table-header">${{selectedEvent}} - ${{gender}} ${{pool}}</div>
+                        <div class="table-header">
+                            <span>${{selectedEvent}} - ${{gender}} ${{pool}}</span>
+                            <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
+                        </div>
                         <div class="table-content">
                             <table>
                                 <thead>
