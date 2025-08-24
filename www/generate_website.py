@@ -785,6 +785,14 @@ def generate_html():
             align-items: center;
             justify-content: space-between;
             margin-bottom: 20px;
+            position: relative;
+        }}
+        
+        .header h1 {{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
         }}
         
         .language-switcher {{
@@ -904,6 +912,12 @@ def generate_html():
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }}
+        
+        .table-header span:last-child {{
+            font-size: 0.75em;
+            color: #adb5bd;
+            font-weight: 400;
         }}
         
         .table-content {{
