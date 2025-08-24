@@ -260,37 +260,151 @@
         }
         
         @media (max-width: 768px) {
+            .header {
+                padding: 15px 10px;
+            }
+            
             .header-content {
                 flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header-main {
+                flex-direction: column;
+                align-items: center;
                 gap: 10px;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 1.8em;
+                text-align: center;
+                margin: 0;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
             }
             
             .language-switcher {
                 position: static;
-                margin-top: 10px;
+                margin-top: 5px;
             }
             
-            .nav-buttons {
-                position: static;
-                margin-top: 10px;
+            .flag-btn {
+                font-size: 14px;
+                padding: 3px 5px;
+            }
+            
+            .header-subtext {
+                font-size: 0.9em;
+                line-height: 1.4;
+                padding: 0 10px;
             }
             
             .filters {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 15px;
+                padding: 15px 10px;
+                margin: 15px auto;
             }
             
             .filter-group {
                 width: 100%;
             }
             
-            th, td {
-                padding: 8px 10px;
+            .filter-group select {
+                width: 100%;
+                padding: 12px;
+                font-size: 1em;
+            }
+            
+            .results-container {
+                padding: 0 10px;
+            }
+            
+            .results-table {
+                margin-bottom: 15px;
+                border-radius: 6px;
+            }
+            
+            .table-header {
+                padding: 10px 12px;
                 font-size: 0.9em;
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+            
+            .table-header span:last-child {
+                font-size: 0.7em;
+            }
+            
+            .table-content {
+                overflow-x: auto;
+            }
+            
+            table {
+                font-size: 0.8em;
+                min-width: 600px;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.8em;
+            }
+            
+            .rank {
+                width: 40px;
+            }
+            
+            .points {
+                width: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .filters {
+                padding: 10px;
+                margin: 10px auto;
+            }
+            
+            .filter-group select {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            
+            .table-header {
+                padding: 8px 10px;
+                font-size: 0.85em;
+            }
+            
+            table {
+                font-size: 0.75em;
+                min-width: 500px;
+            }
+            
+            th, td {
+                padding: 6px 4px;
+                font-size: 0.75em;
+            }
+            
+            .rank {
+                width: 35px;
+            }
+            
+            .points {
+                width: 50px;
             }
         }
     </style>
@@ -345,7 +459,7 @@
         // Translations
         const translations = {
             no: {
-                mainTitle: "TS&LK Klubbrekorder",
+                mainTitle: "Klubbrekorder",
                 headerSubtextShort: "Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene.",
                 headerSubtextFull: "Denne oversikten viser TS&LK's klubbrekorder i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.",
                 readMore: "Les mer",
@@ -373,7 +487,7 @@
                 noResultsMessage: "Ingen resultater funnet for de valgte filtrene."
             },
             en: {
-                mainTitle: "TS&LK Club Records",
+                mainTitle: "Club Records",
                 headerSubtextShort: "This overview shows TS&LK's swimming club records through time.",
                 headerSubtextFull: "This overview shows TS&LK's swimming club records through time. The data is retrieved from medley.no and in addition some older manual entries that medley.no has not registered have been added. The times shown for the athletes must be from when they represented TS&LK. I will try to update the list 1-2 times annually based on fresh results in Medley - I will not add fresh results, then you must wait for the next update. If anyone thinks something is wrong, old entries are missing etc. then send me an email at ingesqz@gmail.com. The points are based on FINA 2024.",
                 readMore: "Read more",
