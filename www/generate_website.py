@@ -807,30 +807,31 @@ def generate_html():
         
         .language-switcher {{
             display: flex;
-            gap: 8px;
+            gap: 4px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }}
         
-        .language-btn {{
-            background: #f8f9fa;
+        .flag-btn {{
+            background: none;
             border: 1px solid #dee2e6;
-            color: #6c757d;
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 4px 6px;
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 0.9em;
-            font-weight: 500;
+            font-size: 16px;
+            line-height: 1;
         }}
         
-        .language-btn:hover {{
-            background: #e9ecef;
-            border-color: #adb5bd;
-        }}
-        
-        .language-btn.active {{
-            background: #007bff;
-            color: white;
+        .flag-btn:hover {{
             border-color: #007bff;
+            transform: scale(1.1);
+        }}
+        
+        .flag-btn.active {{
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
         }}
         
 
@@ -1033,8 +1034,8 @@ def generate_html():
                     <!-- Logo click will return to best swimmers view -->
                 </div>
                 <div class="language-switcher">
-                    <button class="language-btn active" onclick="changeLanguage('no')">Norsk</button>
-                    <button class="language-btn" onclick="changeLanguage('en')">English</button>
+                    <button class="flag-btn active" onclick="changeLanguage('no')" title="Norsk">🇳🇴</button>
+                    <button class="flag-btn" onclick="changeLanguage('en')" title="English">🇬🇧</button>
                 </div>
             </div>
             <div class="header-subtext" id="headerSubtext">
@@ -1046,7 +1047,6 @@ def generate_html():
     
     <div class="filters">
         <div class="filter-group">
-            <label for="eventSelect" id="eventLabel">Øvelse:</label>
             <select id="eventSelect">
                 <option value="" id="allEvents">Velg øvelse</option>
                 {''.join(f'<option value="{event}">{event}</option>' for event in events)}
@@ -1054,7 +1054,6 @@ def generate_html():
         </div>
         
         <div class="filter-group">
-            <label for="genderSelect" id="genderLabel">Kjønn:</label>
             <select id="genderSelect">
                 <option value="" id="allGenders">Velg kjønn</option>
                 <option value="Male" id="maleOption">Menn</option>
@@ -1151,8 +1150,8 @@ def generate_html():
         function changeLanguage(lang) {{
             currentLanguage = lang;
             
-            // Update language buttons
-            document.querySelectorAll('.language-btn').forEach(btn => {{
+            // Update flag buttons
+            document.querySelectorAll('.flag-btn').forEach(btn => {{
                 btn.classList.remove('active');
             }});
             event.target.classList.add('active');
@@ -1172,8 +1171,6 @@ def generate_html():
             shortText.innerHTML = `${{translations[lang].headerSubtextShort}} <a href="#" class="read-more-link" onclick="toggleSubtext(event)">${{translations[lang].readMore}}</a>`;
             fullText.innerHTML = `${{translations[lang].headerSubtextFull}} <a href="#" class="read-less-link" onclick="toggleSubtext(event)">${{translations[lang].readLess}}</a>`;
             
-            document.getElementById('eventLabel').textContent = translations[lang].eventLabel;
-            document.getElementById('genderLabel').textContent = translations[lang].genderLabel;
             document.getElementById('allEvents').textContent = translations[lang].allEvents;
             document.getElementById('allGenders').textContent = translations[lang].allGenders;
             document.getElementById('maleOption').textContent = translations[lang].maleOption;
