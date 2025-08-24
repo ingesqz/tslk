@@ -920,6 +920,15 @@ def generate_html():
             padding: 12px 16px;
             font-size: 1em;
             font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+        
+        .table-header span:last-child {{
+            font-size: 0.75em;
+            color: #adb5bd;
+            font-weight: 400;
         }}
         
         .table-content {{
@@ -1234,6 +1243,7 @@ def generate_html():
                 maleTableDiv.innerHTML = `
                     <div class="table-header">
                         <span>${{translations[currentLanguage].top10Men}}</span>
+                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
                         <table>
@@ -1276,6 +1286,7 @@ def generate_html():
                 femaleTableDiv.innerHTML = `
                     <div class="table-header">
                         <span>${{translations[currentLanguage].top10Women}}</span>
+                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
                         <table>
