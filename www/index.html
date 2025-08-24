@@ -170,6 +170,9 @@
             padding: 15px 20px;
             font-size: 1.1em;
             font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .table-content {
@@ -454,7 +457,10 @@
                 const maleTableDiv = document.createElement('div');
                 maleTableDiv.className = 'results-table';
                 maleTableDiv.innerHTML = `
-                    <div class="table-header">${translations[currentLanguage].top10Men}</div>
+                    <div class="table-header">
+                        <span>${translations[currentLanguage].top10Men}</span>
+                        <span style="font-size: 0.8em; opacity: 0.8;">${translations[currentLanguage].lastUpdated}: 2025-07-30</span>
+                    </div>
                     <div class="table-content">
                         <table>
                             <thead>
@@ -494,7 +500,10 @@
                 const femaleTableDiv = document.createElement('div');
                 femaleTableDiv.className = 'results-table';
                 femaleTableDiv.innerHTML = `
-                    <div class="table-header">${translations[currentLanguage].top10Women}</div>
+                    <div class="table-header">
+                        <span>${translations[currentLanguage].top10Women}</span>
+                        <span style="font-size: 0.8em; opacity: 0.8;">${translations[currentLanguage].lastUpdated}: 2025-07-30</span>
+                    </div>
                     <div class="table-content">
                         <table>
                             <thead>
@@ -529,11 +538,7 @@
                 container.appendChild(femaleTableDiv);
             }
             
-            // Add last updated info
-            const lastUpdatedDiv = document.createElement('div');
-            lastUpdatedDiv.className = 'last-updated';
-            lastUpdatedDiv.innerHTML = `${translations[currentLanguage].lastUpdated}: 2025-07-30 15:59`;
-            container.appendChild(lastUpdatedDiv);
+            // Last updated info is now in table headers
         }
         
         function showEventResults(selectedEvent, selectedGender) {
@@ -567,7 +572,10 @@
                     tableDiv.className = 'results-table';
                     
                     tableDiv.innerHTML = `
-                        <div class="table-header">${selectedEvent} - ${gender} ${pool}</div>
+                        <div class="table-header">
+                            <span>${selectedEvent} - ${gender} ${pool}</span>
+                            <span style="font-size: 0.8em; opacity: 0.8;">${translations[currentLanguage].lastUpdated}: 2025-07-30</span>
+                        </div>
                         <div class="table-content">
                             <table>
                                 <thead>
@@ -593,7 +601,7 @@
                                     `).join('')}
                                 </tbody>
                             </table>
-                            <div class="last-updated">${translations[currentLanguage].lastUpdated}: 2025-07-30 15:59</div>
+                            <!-- Last updated info moved to table header -->
                         </div>
                     `;
                     
