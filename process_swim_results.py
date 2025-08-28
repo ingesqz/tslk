@@ -24,7 +24,7 @@ def identify_gender(name):
     # Common Norwegian male names
     male_names = {
         'odin', 'adam', 'jon', 'albert', 'ole', 'aamund', 'johannes', 'tomas', 'paal',
-        'sondre', 'andreas', 'ivan', 'tamer'
+        'sondre', 'andreas', 'ivan', 'tamer', 'bjarne'
     }
     
     # Common Norwegian female names
@@ -57,7 +57,21 @@ def clean_swimmer_name(name):
     """
     # Remove "Navn: " prefix if present
     clean_name = name.replace("Navn: ", "").strip()
+    
+    # Standardize specific name variations
+    clean_name = standardize_name_variations(clean_name)
+    
     return clean_name
+
+def standardize_name_variations(name):
+    """
+    Standardize known name variations to their correct format.
+    """
+    # Standardize "Solum Ole Peder Uthus" to "Ole Peder Uthus Solum"
+    if name == "Solum Ole Peder Uthus":
+        return "Ole Peder Uthus Solum"
+    
+    return name
 
 def get_pool_length(pool_val):
     """
