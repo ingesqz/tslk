@@ -1255,6 +1255,50 @@ def generate_html():
         const allData = {json.dumps(all_data)};
         const events = {json.dumps(events)};
         
+        // Event name translations
+        const eventTranslations = {{
+            no: {{
+                "50m Butterfly": "50m Butterfly",
+                "50m Rygg": "50m Rygg",
+                "50m Bryst": "50m Bryst",
+                "50m Fri": "50m Fri",
+                "100m Butterfly": "100m Butterfly",
+                "100m Rygg": "100m Rygg",
+                "100m Bryst": "100m Bryst",
+                "100m Fri": "100m Fri",
+                "100m Medley": "100m Medley",
+                "200m Butterfly": "200m Butterfly",
+                "200m Rygg": "200m Rygg",
+                "200m Bryst": "200m Bryst",
+                "200m Fri": "200m Fri",
+                "200m Medley": "200m Medley",
+                "400m Fri": "400m Fri",
+                "400m Medley": "400m Medley",
+                "800m Fri": "800m Fri",
+                "1500m Fri": "1500m Fri"
+            }},
+            en: {{
+                "50m Butterfly": "50m Butterfly",
+                "50m Rygg": "50m Backstroke",
+                "50m Bryst": "50m Breaststroke",
+                "50m Fri": "50m Freestyle",
+                "100m Butterfly": "100m Butterfly",
+                "100m Rygg": "100m Backstroke",
+                "100m Bryst": "100m Breaststroke",
+                "100m Fri": "100m Freestyle",
+                "100m Medley": "100m Medley",
+                "200m Butterfly": "200m Butterfly",
+                "200m Rygg": "200m Backstroke",
+                "200m Bryst": "200m Breaststroke",
+                "200m Fri": "200m Freestyle",
+                "200m Medley": "200m Medley",
+                "400m Fri": "400m Freestyle",
+                "400m Medley": "400m Medley",
+                "800m Fri": "800m Freestyle",
+                "1500m Fri": "1500m Freestyle"
+            }}
+        }};
+        
         // Translations
         const translations = {{
             no: {{
@@ -1356,10 +1400,30 @@ def generate_html():
             fullText.innerHTML = `${{translations[lang].headerSubtextFull}} <a href="#" class="read-less-link" onclick="toggleSubtext(event)">${{translations[lang].readLess}}</a>`;
             
             document.getElementById('allEvents').textContent = translations[lang].allEvents;
-            document.getElementById('genderLabel').textContent = translations[lang].genderLabel;
-            document.querySelector('#allGenders + .radio-text').textContent = translations[lang].allGenders;
             document.querySelector('#maleOption + .radio-text').textContent = translations[lang].maleOption;
             document.querySelector('#femaleOption + .radio-text').textContent = translations[lang].femaleOption;
+            
+            // Update event dropdown options
+            const eventSelect = document.getElementById('eventSelect');
+            const currentSelectedValue = eventSelect.value;
+            
+            // Clear existing options except the first one
+            while (eventSelect.children.length > 1) {{
+                eventSelect.removeChild(eventSelect.lastChild);
+            }}
+            
+            // Add translated event options
+            events.forEach(event => {{
+                const option = document.createElement('option');
+                option.value = event;
+                option.textContent = eventTranslations[lang][event] || event;
+                eventSelect.appendChild(option);
+            }});
+            
+            // Restore selected value if it exists
+            if (currentSelectedValue) {{
+                eventSelect.value = currentSelectedValue;
+            }}
             
             // Refresh results to update table headers and messages
             filterResults();
@@ -1450,7 +1514,7 @@ def generate_html():
                                     <tr>
                                         <td class="rank">${{index + 1}}</td>
                                         <td>${{row.Name || ''}}</td>
-                                        <td>${{row.Event || ''}}</td>
+                                        <td>${{eventTranslations[currentLanguage][row.Event] || row.Event || ''}}</td>
                                         <td>${{row.Pool || ''}}</td>
                                         <td>${{row.Tid || ''}}</td>
                                         <td class="points">${{row.Poeng || ''}}</td>
@@ -1492,7 +1556,7 @@ def generate_html():
                                     <tr>
                                         <td class="rank">${{index + 1}}</td>
                                         <td>${{row.Name || ''}}</td>
-                                        <td>${{row.Event || ''}}</td>
+                                        <td>${{eventTranslations[currentLanguage][row.Event] || row.Event || ''}}</td>
                                         <td>${{row.Pool || ''}}</td>
                                         <td>${{row.Tid || ''}}</td>
                                         <td class="points">${{row.Poeng || ''}}</td>
@@ -1542,7 +1606,7 @@ def generate_html():
                     
                     tableDiv.innerHTML = `
                         <div class="table-header">
-                            <span>${{selectedEvent}} - ${{gender}} ${{pool}}</span>
+                            <span>${{eventTranslations[currentLanguage][selectedEvent] || selectedEvent}} - ${{gender}} ${{pool}}</span>
                             <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                         </div>
                         <div class="table-content">
