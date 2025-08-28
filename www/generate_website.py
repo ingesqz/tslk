@@ -101,7 +101,7 @@ def get_latest_file_date():
     if not grd_files:
         return datetime.now().strftime('%d.%m.%Y')
     
-    # Filter out temporary files (starting with ~$)
+    # Filter out temporary files (starting with ~$) to ensure correct date
     grd_files = [f for f in grd_files if not os.path.basename(f).startswith('~$')]
     
     if not grd_files:
@@ -906,6 +906,36 @@ def generate_html():
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }}
         
+        .radio-group {{
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }}
+        
+        .radio-label {{
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #495057;
+            transition: color 0.2s;
+        }}
+        
+        .radio-label:hover {{
+            color: #007bff;
+        }}
+        
+        .radio-label input[type="radio"] {{
+            margin: 0;
+            cursor: pointer;
+            accent-color: #007bff;
+        }}
+        
+        .radio-text {{
+            font-weight: 500;
+        }}
+        
         .results-container {{
             max-width: 1200px;
             margin: 0 auto;
@@ -1063,6 +1093,17 @@ def generate_html():
                 font-size: 1em;
             }}
             
+            .radio-group {{
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }}
+            
+            .radio-label {{
+                font-size: 1em;
+                padding: 8px 0;
+            }}
+            
             .results-container {{
                 padding: 0 10px;
             }}
@@ -1192,11 +1233,21 @@ def generate_html():
         </div>
         
         <div class="filter-group">
-            <select id="genderSelect">
-                <option value="" id="allGenders">Velg kjønn</option>
-                <option value="Male" id="maleOption">Menn</option>
-                <option value="Female" id="femaleOption">Kvinner</option>
-            </select>
+            <label id="genderLabel">Kjønn:</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="" id="allGenders" checked>
+                    <span class="radio-text">Alle</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="Male" id="maleOption">
+                    <span class="radio-text">Menn</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="Female" id="femaleOption">
+                    <span class="radio-text">Kvinner</span>
+                </label>
+            </div>
         </div>
     </div>
     
@@ -1310,9 +1361,10 @@ def generate_html():
             fullText.innerHTML = `${{translations[lang].headerSubtextFull}} <a href="#" class="read-less-link" onclick="toggleSubtext(event)">${{translations[lang].readLess}}</a>`;
             
             document.getElementById('allEvents').textContent = translations[lang].allEvents;
-            document.getElementById('allGenders').textContent = translations[lang].allGenders;
-            document.getElementById('maleOption').textContent = translations[lang].maleOption;
-            document.getElementById('femaleOption').textContent = translations[lang].femaleOption;
+            document.getElementById('genderLabel').textContent = translations[lang].genderLabel;
+            document.querySelector('#allGenders + .radio-text').textContent = translations[lang].allGenders;
+            document.querySelector('#maleOption + .radio-text').textContent = translations[lang].maleOption;
+            document.querySelector('#femaleOption + .radio-text').textContent = translations[lang].femaleOption;
             
             // Refresh results to update table headers and messages
             filterResults();
@@ -1320,7 +1372,7 @@ def generate_html():
         
         function filterResults() {{
             const selectedEvent = document.getElementById('eventSelect').value;
-            const selectedGender = document.getElementById('genderSelect').value;
+            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
             
             const container = document.getElementById('resultsContainer');
             container.innerHTML = '';
@@ -1539,23 +1591,26 @@ def generate_html():
         
         // Add event listeners
         document.getElementById('eventSelect').addEventListener('change', filterResults);
-        document.getElementById('genderSelect').addEventListener('change', filterResults);
+        document.querySelectorAll('input[name="gender"]').forEach(radio => {{
+            radio.addEventListener('change', filterResults);
+        }});
         
         // Add logo click event to return to best swimmers view
         document.querySelector('.logo').addEventListener('click', function() {{
             document.getElementById('eventSelect').value = '';
-            document.getElementById('genderSelect').value = '';
+            document.getElementById('allGenders').checked = true;
             filterResults();
         }});
         
         // Initialize page with current language
         document.getElementById('mainTitle').textContent = translations[currentLanguage].mainTitle;
         
-        // Update dropdown options
+        // Update dropdown options and radio button labels
         document.getElementById('allEvents').textContent = translations[currentLanguage].allEvents;
-        document.getElementById('allGenders').textContent = translations[currentLanguage].allGenders;
-        document.getElementById('maleOption').textContent = translations[currentLanguage].maleOption;
-        document.getElementById('femaleOption').textContent = translations[currentLanguage].femaleOption;
+        document.getElementById('genderLabel').textContent = translations[currentLanguage].genderLabel;
+        document.querySelector('#allGenders + .radio-text').textContent = translations[currentLanguage].allGenders;
+        document.querySelector('#maleOption + .radio-text').textContent = translations[currentLanguage].maleOption;
+        document.querySelector('#femaleOption + .radio-text').textContent = translations[currentLanguage].femaleOption;
         
         // Update subtext elements
         const shortText = document.querySelector('.subtext-short');
