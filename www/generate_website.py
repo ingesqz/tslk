@@ -94,15 +94,21 @@ def load_statistics_data():
     return all_data
 
 def get_latest_file_date():
-    """Get the latest creation date from grdRanking files."""
+    """Get the latest modification date from grdRanking files."""
     rawdata_folder = "../Rawdata"
     grd_files = glob.glob(os.path.join(rawdata_folder, "grdRanking*.xlsx"))
     
     if not grd_files:
         return datetime.now().strftime('%d.%m.%Y')
     
-    # Get the latest creation time
-    latest_time = max(os.path.getctime(f) for f in grd_files)
+    # Filter out temporary files (starting with ~$)
+    grd_files = [f for f in grd_files if not os.path.basename(f).startswith('~$')]
+    
+    if not grd_files:
+        return datetime.now().strftime('%d.%m.%Y')
+    
+    # Get the latest modification time (more reliable than creation time)
+    latest_time = max(os.path.getmtime(f) for f in grd_files)
     return datetime.fromtimestamp(latest_time).strftime('%d.%m.%Y')
 
 def generate_statistics_page(statistics_data, latest_date):
