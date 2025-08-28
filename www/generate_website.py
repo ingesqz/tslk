@@ -1383,6 +1383,7 @@ def generate_html():
         
         function showBestSwimmers() {{
             const container = document.getElementById('resultsContainer');
+            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
             
             // Collect all results from all events
             const allMaleResults = [];
@@ -1421,8 +1422,8 @@ def generate_html():
             const top10Male = allMaleResults.slice(0, 10);
             const top10Female = allFemaleResults.slice(0, 10);
             
-            // Create male table
-            if (top10Male.length > 0) {{
+            // Show tables based on selected gender
+            if (selectedGender === 'Male' && top10Male.length > 0) {{
                 const maleTableDiv = document.createElement('div');
                 maleTableDiv.className = 'results-table';
                 maleTableDiv.innerHTML = `
@@ -1464,8 +1465,7 @@ def generate_html():
                 container.appendChild(maleTableDiv);
             }}
             
-            // Create female table
-            if (top10Female.length > 0) {{
+            if (selectedGender === 'Female' && top10Female.length > 0) {{
                 const femaleTableDiv = document.createElement('div');
                 femaleTableDiv.className = 'results-table';
                 femaleTableDiv.innerHTML = `
