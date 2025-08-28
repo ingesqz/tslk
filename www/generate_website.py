@@ -1233,14 +1233,9 @@ def generate_html():
         </div>
         
         <div class="filter-group">
-            <label id="genderLabel">Kjønn:</label>
             <div class="radio-group">
                 <label class="radio-label">
-                    <input type="radio" name="gender" value="" id="allGenders" checked>
-                    <span class="radio-text">Alle</span>
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="gender" value="Male" id="maleOption">
+                    <input type="radio" name="gender" value="Male" id="maleOption" checked>
                     <span class="radio-text">Menn</span>
                 </label>
                 <label class="radio-label">
@@ -1377,8 +1372,8 @@ def generate_html():
             const container = document.getElementById('resultsContainer');
             container.innerHTML = '';
             
-            // If both event and gender are selected, show specific event results
-            if (selectedEvent && selectedGender) {{
+            // If event is selected, show specific event results for selected gender
+            if (selectedEvent) {{
                 showEventResults(selectedEvent, selectedGender);
             }} else {{
                 // Otherwise show best swimmers
@@ -1598,7 +1593,7 @@ def generate_html():
         // Add logo click event to return to best swimmers view
         document.querySelector('.logo').addEventListener('click', function() {{
             document.getElementById('eventSelect').value = '';
-            document.getElementById('allGenders').checked = true;
+            document.getElementById('maleOption').checked = true;
             filterResults();
         }});
         
@@ -1607,10 +1602,8 @@ def generate_html():
         
         // Update dropdown options and radio button labels
         document.getElementById('allEvents').textContent = translations[currentLanguage].allEvents;
-        document.getElementById('genderLabel').textContent = translations[currentLanguage].genderLabel;
-        document.querySelector('#allGenders + .radio-text').textContent = translations[currentLanguage].allGenders;
-        document.querySelector('#maleOption + .radio-text').textContent = translations[currentLanguage].maleOption;
-        document.querySelector('#femaleOption + .radio-text').textContent = translations[currentLanguage].femaleOption;
+                    document.querySelector('#maleOption + .radio-text').textContent = translations[currentLanguage].maleOption;
+            document.querySelector('#femaleOption + .radio-text').textContent = translations[currentLanguage].femaleOption;
         
         // Update subtext elements
         const shortText = document.querySelector('.subtext-short');
