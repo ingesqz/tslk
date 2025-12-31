@@ -271,14 +271,23 @@ def process_all_files():
     # Read exceptions file first
     exceptions_by_event = read_exceptions_file()
     
-    # Get all files starting with "grdRanking" in the Rawdata folder
+    # Get all files starting with "grdRanking" in the Rawdata folder and Org subfolder
     grd_files = []
+    
+    # Process files in Rawdata folder
     for file in os.listdir(rawdata_folder):
-        if file.startswith("grdRanking") and file.endswith(".xlsx"):
+        if file.startswith("grdRanking") and file.endswith(".xlsx") and not file.startswith("~$"):
             grd_files.append(os.path.join(rawdata_folder, file))
     
+    # Process files in Rawdata/Org subfolder (old files)
+    org_folder = os.path.join(rawdata_folder, "Org")
+    if os.path.exists(org_folder):
+        for file in os.listdir(org_folder):
+            if file.startswith("grdRanking") and file.endswith(".xlsx") and not file.startswith("~$"):
+                grd_files.append(os.path.join(org_folder, file))
+    
     print(f"Found {len(grd_files)} grdRanking files to process:")
-    for file in grd_files:
+    for file in sorted(grd_files):
         print(f"  - {file}")
     
     # Process each file
@@ -292,7 +301,8 @@ def process_all_files():
             if event_name in all_events:
                 print(f"Combining data for existing event: {event_name}")
                 all_events[event_name] = pd.concat([all_events[event_name], result_df], ignore_index=True)
-                # Remove duplicates again after combining, keeping best per pool type
+                # Sort by points descending, then remove duplicates keeping the first (highest points)
+                all_events[event_name] = all_events[event_name].sort_values('Poeng', ascending=False)
                 all_events[event_name] = all_events[event_name].drop_duplicates(subset=['Name', 'Pool'], keep='first')
             else:
                 all_events[event_name] = result_df
