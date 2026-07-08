@@ -25,16 +25,20 @@ def identify_gender(name):
     # Common Norwegian male names
     male_names = {
         'odin', 'adam', 'jon', 'albert', 'ole', 'aamund', 'johannes', 'tomas', 'paal',
-        'sondre', 'andreas', 'ivan', 'tamer', 'bjarne', 'brage', 'ådne', 'sindre', 'vetle', 'terje'
+        'sondre', 'andreas', 'ivan', 'tamer', 'bjarne', 'brage', 'ådne', 'sindre', 'vetle', 'terje',
+        'gabriel', 'thomas', 'balder', 'einar', 'mattias', 'tudor', 'elias', 'magnus', 'bendik',
+        'jakob', 'rasmus', 'lucas', 'sebastian', 'johan', 'kristian', 'tor', 'tobias', 'simen',
+        'scott', 'bjørnar', 'erlend', 'manith', 'leo', 'fredrik', 'edvin'
     }
     
     # Common Norwegian female names
     female_names = {
         'sara', 'maria', 'silje', 'carina', 'eirill', 'henriette', 'elise', 'vilde', 
-        'tove', 'amanda', 'silje', 'carina', 'sara', 'maria', 'kirsti',
-        'guro', 'linn-mari', 'paulien', 'frøydis', 'mari', 'sissel', 'gudrun', 
-        'torborg', 'solveig', 'elisabeth', 'malin', 'siv', 'sigrid', 'annelin', 
-        'heidi', 'linn', 'maud', 'miriam', 'ingrid'
+        'tove', 'amanda', 'kirsti', 'guro', 'linn-mari', 'paulien', 'frøydis', 'mari', 'sissel', 
+        'gudrun', 'torborg', 'solveig', 'elisabeth', 'malin', 'siv', 'sigrid', 'annelin', 
+        'heidi', 'linn', 'maud', 'miriam', 'ingrid', 'emmelin', 'ada', 'nicole', 'alexandra',
+        'leonora', 'marie', 'stine', 'sanna', 'annika', 'mia', 'julie', 'othelie', 'karoline',
+        'louise', 'michaela'
     }
     
     # Check if it's a known male name

@@ -936,6 +936,83 @@ def generate_html():
             font-weight: 500;
         }}
         
+        .filter-group-gender {{
+            flex: 1;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }}
+        
+        .view-link {{
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s;
+            white-space: nowrap;
+        }}
+        
+        .view-link:hover {{
+            background: #e7f1ff;
+        }}
+        
+        .view-link.active {{
+            background: #007bff;
+            color: white;
+        }}
+        
+        .table-pagination {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }}
+        
+        .pagination-btn {{
+            padding: 6px 14px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            background: white;
+            color: #495057;
+            font-size: 0.85em;
+            cursor: pointer;
+        }}
+        
+        .pagination-btn:hover:not(:disabled) {{
+            background: #e9ecef;
+        }}
+        
+        .pagination-btn:disabled {{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }}
+        
+        .pagination-info {{
+            font-size: 0.85em;
+            color: #6c757d;
+        }}
+        
+        th.sortable {{
+            cursor: pointer;
+            user-select: none;
+        }}
+        
+        th.sortable:hover {{
+            background-color: #e9ecef;
+        }}
+        
+        .sort-indicator {{
+            margin-left: 4px;
+            color: #007bff;
+        }}
+        
         .results-container {{
             max-width: 1200px;
             margin: 0 auto;
@@ -965,6 +1042,65 @@ def generate_html():
             font-size: 0.75em;
             color: #adb5bd;
             font-weight: 400;
+        }}
+        
+        .table-header-title {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }}
+        
+        .info-icon {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.75);
+            font-size: 11px;
+            font-weight: 700;
+            font-style: italic;
+            line-height: 1;
+            cursor: help;
+            position: relative;
+            flex-shrink: 0;
+            color: white;
+        }}
+        
+        .info-icon::before {{
+            content: 'i';
+        }}
+        
+        .info-icon::after {{
+            content: attr(data-tooltip);
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 280px;
+            white-space: normal;
+            padding: 10px 12px;
+            background: #212529;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 400;
+            font-style: normal;
+            line-height: 1.4;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.15s ease, visibility 0.15s ease;
+            z-index: 10;
+            pointer-events: none;
+        }}
+        
+        .info-icon:hover::after,
+        .info-icon:focus::after {{
+            opacity: 1;
+            visibility: visible;
         }}
         
         .table-content {{
@@ -1097,6 +1233,16 @@ def generate_html():
                 flex-direction: column;
                 gap: 10px;
                 align-items: flex-start;
+            }}
+            
+            .filter-group-gender {{
+                flex-direction: column;
+                align-items: stretch;
+            }}
+            
+            .view-link {{
+                width: 100%;
+                text-align: center;
             }}
             
             .radio-label {{
@@ -1232,7 +1378,7 @@ def generate_html():
             </select>
         </div>
         
-        <div class="filter-group">
+        <div class="filter-group filter-group-gender">
             <div class="radio-group">
                 <label class="radio-label">
                     <input type="radio" name="gender" value="Male" id="maleOption" checked>
@@ -1243,6 +1389,7 @@ def generate_html():
                     <span class="radio-text">Kvinner</span>
                 </label>
             </div>
+            <button type="button" class="view-link" id="latestRegistrationsLink">Siste innlagte registreringer</button>
         </div>
     </div>
     
@@ -1317,6 +1464,7 @@ def generate_html():
                 nameHeader: "Navn",
                 eventHeader: "Øvelse",
                 poolHeader: "Basseng",
+                posHeader: "Pos",
                 timeHeader: "Tid",
                 pointsHeader: "Poeng",
                 dateHeader: "Dato",
@@ -1325,6 +1473,15 @@ def generate_html():
                 women: "Kvinner",
                 top10Men: "Beste resultater - Menn",
                 top10Women: "Beste resultater - Kvinner",
+                top10InfoTooltip: "Denne tabellen viser de 10 resultatene med høyest FINA poeng, uavhengig av øvelse og bane. FINA poengene regnes ut i fra verdensrekorden og er derfor sammenlignbare på tvers av øvelser.",
+                latestRegistrations: "Siste innlagte registreringer",
+                latestRegistrationsMen: "Siste innlagte registreringer - Menn",
+                latestRegistrationsWomen: "Siste innlagte registreringer - Kvinner",
+                latestRegistrationsInfoTooltip: "Denne tabellene viser alle registreringer i alle øvelser. Tabellene er sortert på dato utøveren satt rekorden slik at de nyeste innlagte registreringene vises øverst.",
+                prevPage: "Forrige",
+                nextPage: "Neste",
+                pageLabel: "Side",
+                pageOf: "av",
                 lastUpdated: "Sist oppdatert",
                 filterMessage: "Vennligst velg både øvelse og kjønn for å se resultater.",
                 noResultsMessage: "Ingen resultater funnet for de valgte filtrene."
@@ -1345,6 +1502,7 @@ def generate_html():
                 nameHeader: "Name",
                 eventHeader: "Event",
                 poolHeader: "Pool",
+                posHeader: "Pos",
                 timeHeader: "Time",
                 pointsHeader: "Points",
                 dateHeader: "Date",
@@ -1353,6 +1511,15 @@ def generate_html():
                 women: "Women",
                 top10Men: "Best results - Men",
                 top10Women: "Best results - Women",
+                top10InfoTooltip: "This table shows the 10 results with the highest FINA points, regardless of event and pool. FINA points are calculated from the world record and are therefore comparable across events.",
+                latestRegistrations: "Latest registrations",
+                latestRegistrationsMen: "Latest registrations - Men",
+                latestRegistrationsWomen: "Latest registrations - Women",
+                latestRegistrationsInfoTooltip: "This table shows all registrations across all events. The table is sorted by the date the swimmer set the record, so the most recently added registrations appear at the top.",
+                prevPage: "Previous",
+                nextPage: "Next",
+                pageLabel: "Page",
+                pageOf: "of",
                 lastUpdated: "Last updated",
                 filterMessage: "Please select both event and gender to see results.",
                 noResultsMessage: "No results found for the selected filters."
@@ -1360,6 +1527,115 @@ def generate_html():
         }};
         
         let currentLanguage = 'no';
+        let viewMode = 'default';
+        let latestRegistrationsPage = 1;
+        let latestSortColumn = 'Dato';
+        let latestSortDirection = 'desc';
+        
+        function parseDate(dateStr) {{
+            if (!dateStr) return new Date(0);
+            const parts = String(dateStr).split('.');
+            if (parts.length !== 3) return new Date(0);
+            const [day, month, year] = parts.map(Number);
+            return new Date(year, month - 1, day);
+        }}
+        
+        function parseTime(timeStr) {{
+            if (!timeStr) return Infinity;
+            const str = String(timeStr).trim();
+            if (str.includes('.')) {{
+                const [mins, secs] = str.split('.');
+                return parseInt(mins, 10) * 60 + parseFloat(secs.replace(',', '.'));
+            }}
+            return parseFloat(str.replace(',', '.'));
+        }}
+        
+        function getSortIndicator(column) {{
+            if (latestSortColumn !== column) return '';
+            return `<span class="sort-indicator">${{latestSortDirection === 'asc' ? '↑' : '↓'}}</span>`;
+        }}
+        
+        function sortLatestRegistrations(results) {{
+            const multiplier = latestSortDirection === 'asc' ? 1 : -1;
+            
+            return [...results].sort((a, b) => {{
+                let cmp = 0;
+                
+                switch (latestSortColumn) {{
+                    case 'Name':
+                        cmp = (a.Name || '').localeCompare(b.Name || '', 'no');
+                        break;
+                    case 'Event':
+                        cmp = (a.Event || '').localeCompare(b.Event || '', 'no');
+                        break;
+                    case 'Pool':
+                        cmp = (a.Pool || '').localeCompare(b.Pool || '', 'no');
+                        break;
+                    case 'Pos':
+                        cmp = (a.Pos || 0) - (b.Pos || 0);
+                        break;
+                    case 'Tid':
+                        cmp = parseTime(a.Tid) - parseTime(b.Tid);
+                        break;
+                    case 'Poeng':
+                        cmp = (a.Poeng || 0) - (b.Poeng || 0);
+                        break;
+                    case 'Dato':
+                        cmp = parseDate(a.Dato) - parseDate(b.Dato);
+                        break;
+                    case 'Sted':
+                        cmp = (a.Sted || '').localeCompare(b.Sted || '', 'no');
+                        break;
+                    default:
+                        cmp = parseDate(a.Dato) - parseDate(b.Dato);
+                }}
+                
+                return cmp * multiplier;
+            }});
+        }}
+        
+        function handleLatestSort(column) {{
+            if (latestSortColumn === column) {{
+                latestSortDirection = latestSortDirection === 'asc' ? 'desc' : 'asc';
+            }} else {{
+                latestSortColumn = column;
+                latestSortDirection = (column === 'Dato' || column === 'Poeng') ? 'desc' : 'asc';
+            }}
+            latestRegistrationsPage = 1;
+            showLatestRegistrations(1);
+        }}
+        
+        function setViewMode(mode) {{
+            viewMode = mode;
+            const link = document.getElementById('latestRegistrationsLink');
+            if (link) {{
+                link.classList.toggle('active', mode === 'latest');
+            }}
+        }}
+        
+        function getAllRegistrations(gender) {{
+            const categories = gender === 'Male'
+                ? ['Male_25m', 'Male_50m']
+                : ['Female_25m', 'Female_50m'];
+            const allResults = [];
+            
+            for (const [eventName, eventData] of Object.entries(allData)) {{
+                for (const category of categories) {{
+                    if (eventData[category]) {{
+                        eventData[category].forEach((result, index) => {{
+                            allResults.push({{
+                                ...result,
+                                Event: eventName,
+                                Pool: result.Pool || (category.endsWith('25m') ? '25m' : '50m'),
+                                Pos: index + 1
+                            }});
+                        }});
+                    }}
+                }}
+            }}
+            
+            return allResults;
+        }}
         
         function toggleSubtext(event) {{
             event.preventDefault();
@@ -1402,6 +1678,7 @@ def generate_html():
             document.getElementById('allEvents').textContent = translations[lang].allEvents;
             document.querySelector('#maleOption + .radio-text').textContent = translations[lang].maleOption;
             document.querySelector('#femaleOption + .radio-text').textContent = translations[lang].femaleOption;
+            document.getElementById('latestRegistrationsLink').textContent = translations[lang].latestRegistrations;
             
             // Update event dropdown options
             const eventSelect = document.getElementById('eventSelect');
@@ -1436,12 +1713,95 @@ def generate_html():
             const container = document.getElementById('resultsContainer');
             container.innerHTML = '';
             
-            // If event is selected, show specific event results for selected gender
             if (selectedEvent) {{
+                setViewMode('default');
                 showEventResults(selectedEvent, selectedGender);
+            }} else if (viewMode === 'latest') {{
+                showLatestRegistrations(latestRegistrationsPage);
             }} else {{
-                // Otherwise show best swimmers
                 showBestSwimmers();
+            }}
+        }}
+        
+        function showLatestRegistrations(page = 1) {{
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+            const allResults = sortLatestRegistrations(getAllRegistrations(selectedGender));
+            const pageSize = 10;
+            const totalPages = Math.max(1, Math.ceil(allResults.length / pageSize));
+            const currentPage = Math.min(Math.max(1, page), totalPages);
+            latestRegistrationsPage = currentPage;
+            
+            const pageResults = allResults.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+            const startRank = (currentPage - 1) * pageSize;
+            const tableTitle = selectedGender === 'Male'
+                ? translations[currentLanguage].latestRegistrationsMen
+                : translations[currentLanguage].latestRegistrationsWomen;
+            
+            const tableDiv = document.createElement('div');
+            tableDiv.className = 'results-table';
+            tableDiv.innerHTML = `
+                <div class="table-header">
+                    <span class="table-header-title">
+                        <span>${{tableTitle}}</span>
+                        <span class="info-icon" data-tooltip="${{translations[currentLanguage].latestRegistrationsInfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].latestRegistrationsInfoTooltip}}"></span>
+                    </span>
+                    <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
+                </div>
+                <div class="table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="rank">${{translations[currentLanguage].rankHeader}}</th>
+                                <th class="sortable" data-sort="Name">${{translations[currentLanguage].nameHeader}}${{getSortIndicator('Name')}}</th>
+                                <th class="sortable" data-sort="Event">${{translations[currentLanguage].eventHeader}}${{getSortIndicator('Event')}}</th>
+                                <th class="sortable" data-sort="Pool">${{translations[currentLanguage].poolHeader}}${{getSortIndicator('Pool')}}</th>
+                                <th class="sortable" data-sort="Pos">${{translations[currentLanguage].posHeader}}${{getSortIndicator('Pos')}}</th>
+                                <th class="sortable" data-sort="Tid">${{translations[currentLanguage].timeHeader}}${{getSortIndicator('Tid')}}</th>
+                                <th class="sortable points" data-sort="Poeng">${{translations[currentLanguage].pointsHeader}}${{getSortIndicator('Poeng')}}</th>
+                                <th class="sortable" data-sort="Dato">${{translations[currentLanguage].dateHeader}}${{getSortIndicator('Dato')}}</th>
+                                <th class="sortable" data-sort="Sted">${{translations[currentLanguage].locationHeader}}${{getSortIndicator('Sted')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${{pageResults.map((row, index) => `
+                                <tr>
+                                    <td class="rank">${{startRank + index + 1}}</td>
+                                    <td>${{row.Name || ''}}</td>
+                                    <td>${{eventTranslations[currentLanguage][row.Event] || row.Event || ''}}</td>
+                                    <td>${{row.Pool || ''}}</td>
+                                    <td>${{row.Pos || ''}}</td>
+                                    <td>${{row.Tid || ''}}</td>
+                                    <td class="points">${{row.Poeng || ''}}</td>
+                                    <td>${{row.Dato || ''}}</td>
+                                    <td>${{row.Sted || 'Ukjent'}}</td>
+                                </tr>
+                            `).join('')}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-pagination">
+                    <button type="button" class="pagination-btn pagination-prev" ${{currentPage <= 1 ? 'disabled' : ''}}>${{translations[currentLanguage].prevPage}}</button>
+                    <span class="pagination-info">${{translations[currentLanguage].pageLabel}} ${{currentPage}} ${{translations[currentLanguage].pageOf}} ${{totalPages}}</span>
+                    <button type="button" class="pagination-btn pagination-next" ${{currentPage >= totalPages ? 'disabled' : ''}}>${{translations[currentLanguage].nextPage}}</button>
+                </div>
+            `;
+            
+            container.appendChild(tableDiv);
+            
+            tableDiv.querySelectorAll('th.sortable').forEach(th => {{
+                th.addEventListener('click', () => handleLatestSort(th.dataset.sort));
+            }});
+            
+            const prevBtn = tableDiv.querySelector('.pagination-prev');
+            const nextBtn = tableDiv.querySelector('.pagination-next');
+            
+            if (prevBtn && currentPage > 1) {{
+                prevBtn.addEventListener('click', () => showLatestRegistrations(currentPage - 1));
+            }}
+            if (nextBtn && currentPage < totalPages) {{
+                nextBtn.addEventListener('click', () => showLatestRegistrations(currentPage + 1));
             }}
         }}
         
@@ -1492,7 +1852,10 @@ def generate_html():
                 maleTableDiv.className = 'results-table';
                 maleTableDiv.innerHTML = `
                     <div class="table-header">
-                        <span>${{translations[currentLanguage].top10Men}}</span>
+                        <span class="table-header-title">
+                            <span>${{translations[currentLanguage].top10Men}}</span>
+                            <span class="info-icon" data-tooltip="${{translations[currentLanguage].top10InfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].top10InfoTooltip}}"></span>
+                        </span>
                         <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
@@ -1534,7 +1897,10 @@ def generate_html():
                 femaleTableDiv.className = 'results-table';
                 femaleTableDiv.innerHTML = `
                     <div class="table-header">
-                        <span>${{translations[currentLanguage].top10Women}}</span>
+                        <span class="table-header-title">
+                            <span>${{translations[currentLanguage].top10Women}}</span>
+                            <span class="info-icon" data-tooltip="${{translations[currentLanguage].top10InfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].top10InfoTooltip}}"></span>
+                        </span>
                         <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
@@ -1651,13 +2017,29 @@ def generate_html():
         // Add event listeners
         document.getElementById('eventSelect').addEventListener('change', filterResults);
         document.querySelectorAll('input[name="gender"]').forEach(radio => {{
-            radio.addEventListener('change', filterResults);
+            radio.addEventListener('change', () => {{
+                if (viewMode === 'latest') {{
+                    latestRegistrationsPage = 1;
+                }}
+                filterResults();
+            }});
+        }});
+        
+        document.getElementById('latestRegistrationsLink').addEventListener('click', () => {{
+            document.getElementById('eventSelect').value = '';
+            latestRegistrationsPage = 1;
+            latestSortColumn = 'Dato';
+            latestSortDirection = 'desc';
+            setViewMode('latest');
+            filterResults();
         }});
         
         // Add logo click event to return to best swimmers view
         document.querySelector('.logo').addEventListener('click', function() {{
             document.getElementById('eventSelect').value = '';
             document.getElementById('maleOption').checked = true;
+            latestRegistrationsPage = 1;
+            setViewMode('default');
             filterResults();
         }});
         
@@ -1666,8 +2048,9 @@ def generate_html():
         
         // Update dropdown options and radio button labels
         document.getElementById('allEvents').textContent = translations[currentLanguage].allEvents;
-                    document.querySelector('#maleOption + .radio-text').textContent = translations[currentLanguage].maleOption;
-            document.querySelector('#femaleOption + .radio-text').textContent = translations[currentLanguage].femaleOption;
+        document.querySelector('#maleOption + .radio-text').textContent = translations[currentLanguage].maleOption;
+        document.querySelector('#femaleOption + .radio-text').textContent = translations[currentLanguage].femaleOption;
+        document.getElementById('latestRegistrationsLink').textContent = translations[currentLanguage].latestRegistrations;
         
         // Update subtext elements
         const shortText = document.querySelector('.subtext-short');
