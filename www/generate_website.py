@@ -773,10 +773,11 @@ def generate_html():
         }}
         
         .header h1 {{
-            font-size: 2.2em;
+            font-size: 1.45em;
             font-weight: 600;
             color: #2c3e50;
             margin: 0;
+            white-space: nowrap;
         }}
         
         .header-subtext {{
@@ -1246,16 +1247,11 @@ def generate_html():
             }}
             
             .header h1 {{
-                font-size: 1.8em;
+                font-size: 1.1em;
                 text-align: center;
                 margin: 0;
                 flex: 1;
-            }}
-            
-            .header h1 {{
-                font-size: 1.8em;
-                text-align: center;
-                margin: 0;
+                white-space: nowrap;
             }}
             
             .logo {{
@@ -1377,10 +1373,11 @@ def generate_html():
             }}
             
             .header h1 {{
-                font-size: 1.5em;
+                font-size: 0.85em;
                 text-align: center;
                 margin: 0;
                 flex: 1;
+                white-space: nowrap;
             }}
             
             .logo {{
@@ -1428,7 +1425,7 @@ def generate_html():
         <div class="header-content">
             <div class="header-main">
                 <img src="logo.png" alt="TSLK Logo" class="logo">
-                <h1 id="mainTitle">Klubbrekorder</h1>
+                <h1 id="mainTitle">Klubbrekorder TS&LK - sist oppdatert {latest_date}</h1>
                 <div class="nav-buttons">
                     <!-- Logo click will return to best swimmers view -->
                 </div>
@@ -1555,10 +1552,13 @@ def generate_html():
             }}
         }};
         
+        const latestUpdateDate = '{latest_date}';
+        
         // Translations
         const translations = {{
             no: {{
                 mainTitle: "Klubbrekorder",
+                mainTitleUpdated: "sist oppdatert",
                 headerSubtextShort: "Denne oversikten viser TS&LK's beste resultater i svømming gjennom tidene.",
                 headerSubtextFull: "Denne oversikten viser TS&LK's beste resultater i svømming gjennom tidene. Dataene er hentet fra medley.no og i tillegg er det lagt til noen eldre manuelle oppføringer som medley.no ikke har registrert. Tidene som vises på utøverene må være fra når de har representert TS&LK. Jeg vil forsøke å oppdatere listen 1-2 ganger årlig basert på ferske resultater i Medley - jeg kommer ikke til å legge inn ferske resultater, da må du vente på neste oppdatering. Dersom noen mener at noe er feil, gamle oppføringer som mangler etc. så send meg en mail på ingesqz@gmail.com. Poengene er basert på FINA 2024.",
                 readMore: "Les mer",
@@ -1598,6 +1598,7 @@ def generate_html():
             }},
             en: {{
                 mainTitle: "Club Records",
+                mainTitleUpdated: "last updated",
                 headerSubtextShort: "This overview shows TS&LK's swimming club records through time.",
                 headerSubtextFull: "This overview shows TS&LK's swimming club records through time. The data is retrieved from medley.no and in addition some older manual entries that medley.no has not registered have been added. The times shown for the athletes must be from when they represented TS&LK. I will try to update the list 1-2 times annually based on fresh results in Medley - I will not add fresh results, then you must wait for the next update. If anyone thinks something is wrong, old entries are missing etc. then send me an email at ingesqz@gmail.com. The points are based on FINA 2024.",
                 readMore: "Read more",
@@ -1642,6 +1643,11 @@ def generate_html():
         let latestRegistrationsPage = 1;
         let latestSortColumn = 'Dato';
         let latestSortDirection = 'desc';
+        
+        function updateMainTitle(lang) {{
+            document.getElementById('mainTitle').textContent =
+                `${{translations[lang].mainTitle}} TS&LK - ${{translations[lang].mainTitleUpdated}} ${{latestUpdateDate}}`;
+        }}
         
         function parseDate(dateStr) {{
             if (!dateStr) return new Date(0);
@@ -1799,7 +1805,7 @@ def generate_html():
             document.documentElement.lang = lang;
             
             // Update all text elements
-            document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
+            updateMainTitle(lang);
             
             // Update subtext elements
             const shortText = document.querySelector('.subtext-short');
@@ -1890,7 +1896,6 @@ def generate_html():
                         <span>${{translations[currentLanguage].latestRegistrations}}</span>
                         <span class="info-icon" data-tooltip="${{translations[currentLanguage].latestRegistrationsInfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].latestRegistrationsInfoTooltip}}"></span>
                     </span>
-                    <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                 </div>
                 <div class="table-content">
                     <table>
@@ -2007,7 +2012,6 @@ def generate_html():
                             <span>${{translations[currentLanguage].top10Men}}</span>
                             <span class="info-icon" data-tooltip="${{translations[currentLanguage].top10InfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].top10InfoTooltip}}"></span>
                         </span>
-                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
                         <table>
@@ -2052,7 +2056,6 @@ def generate_html():
                             <span>${{translations[currentLanguage].top10Women}}</span>
                             <span class="info-icon" data-tooltip="${{translations[currentLanguage].top10InfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].top10InfoTooltip}}"></span>
                         </span>
-                        <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                     </div>
                     <div class="table-content">
                         <table>
@@ -2124,7 +2127,6 @@ def generate_html():
                     tableDiv.innerHTML = `
                         <div class="table-header">
                             <span>${{eventTranslations[currentLanguage][selectedEvent] || selectedEvent}} - ${{gender}} ${{pool}}</span>
-                            <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
                         </div>
                         <div class="table-content">
                             <table>
@@ -2202,7 +2204,7 @@ def generate_html():
         }});
         
         // Initialize page with current language
-        document.getElementById('mainTitle').textContent = translations[currentLanguage].mainTitle;
+        updateMainTitle(currentLanguage);
         
         // Update dropdown options and radio button labels
         document.getElementById('allEvents').textContent = translations[currentLanguage].allEvents;
