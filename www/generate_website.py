@@ -1101,22 +1101,28 @@ def generate_html():
             color: white;
             padding: 12px 16px;
             font-size: 1em;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
-        
-        .table-header span:last-child {{
-            font-size: 0.75em;
-            color: #adb5bd;
-            font-weight: 400;
         }}
         
         .table-header-title {{
             display: flex;
             align-items: center;
             gap: 8px;
+            color: white;
+            font-weight: 700;
+        }}
+        
+        .table-header-title > span:first-child {{
+            color: white;
+            font-weight: 700;
+        }}
+        
+        .table-header > span {{
+            color: white;
+            font-weight: 700;
         }}
         
         .info-icon {{
@@ -1331,14 +1337,14 @@ def generate_html():
             
             .table-header {{
                 padding: 10px 12px;
-                font-size: 0.9em;
+                font-size: 0.8em;
                 flex-direction: column;
                 gap: 5px;
                 text-align: center;
             }}
             
             .table-header span:last-child {{
-                font-size: 0.7em;
+                font-size: inherit;
             }}
             
             .table-content {{
@@ -1397,7 +1403,7 @@ def generate_html():
             
             .table-header {{
                 padding: 8px 10px;
-                font-size: 0.85em;
+                font-size: 0.75em;
             }}
             
             table {{

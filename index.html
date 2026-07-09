@@ -366,22 +366,23 @@
             color: white;
             padding: 12px 16px;
             font-size: 1em;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .table-header span:last-child {
-            font-size: 0.75em;
-            color: #adb5bd;
-            font-weight: 400;
         }
         
         .table-header-title {
             display: flex;
             align-items: center;
             gap: 8px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .table-header-title > span:first-child {
+            color: white;
+            font-weight: 700;
         }
         
         .info-icon {
@@ -512,16 +513,11 @@
             }
             
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.1em;
                 text-align: center;
                 margin: 0;
                 flex: 1;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-                text-align: center;
-                margin: 0;
+                white-space: nowrap;
             }
             
             .logo {
@@ -601,14 +597,14 @@
             
             .table-header {
                 padding: 10px 12px;
-                font-size: 0.9em;
+                font-size: 0.8em;
                 flex-direction: column;
                 gap: 5px;
                 text-align: center;
             }
             
             .table-header span:last-child {
-                font-size: 0.7em;
+                font-size: inherit;
             }
             
             .table-content {
@@ -643,10 +639,11 @@
             }
             
             .header h1 {
-                font-size: 1.5em;
+                font-size: 0.85em;
                 text-align: center;
                 margin: 0;
                 flex: 1;
+                white-space: nowrap;
             }
             
             .logo {
@@ -666,7 +663,7 @@
             
             .table-header {
                 padding: 8px 10px;
-                font-size: 0.85em;
+                font-size: 0.75em;
             }
             
             table {
