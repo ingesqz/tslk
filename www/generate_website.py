@@ -867,10 +867,11 @@ def generate_html():
         .filters {{
             background: #f8f9fa;
             padding: 15px;
-            margin: 20px auto;
+            margin: 0 auto 20px;
             max-width: 1200px;
-            border-radius: 8px;
+            border-radius: 0 0 8px 8px;
             border: 1px solid #e9ecef;
+            border-top: none;
             display: flex;
             gap: 20px;
             align-items: center;
@@ -936,6 +937,44 @@ def generate_html():
             font-weight: 500;
         }}
         
+        .checkbox-group {{
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }}
+        
+        .checkbox-label {{
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #495057;
+            transition: color 0.2s;
+        }}
+        
+        .checkbox-label:hover {{
+            color: #007bff;
+        }}
+        
+        .checkbox-label input[type="checkbox"] {{
+            margin: 0;
+            cursor: pointer;
+            accent-color: #007bff;
+        }}
+        
+        .checkbox-text {{
+            font-weight: 500;
+        }}
+        
+        .filter-show-label {{
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }}
+        
         .filter-group-gender {{
             flex: 1;
             justify-content: space-between;
@@ -943,26 +982,41 @@ def generate_html():
             gap: 10px;
         }}
         
-        .view-link {{
-            background: none;
+        .view-tabs-container {{
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 0 20px;
+        }}
+        
+        .view-tabs {{
+            display: flex;
+            gap: 0;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }}
+        
+        .view-tab {{
+            flex: 1;
+            padding: 12px 16px;
             border: none;
-            color: #007bff;
-            font-size: 0.9em;
+            background: transparent;
+            font-size: 0.95em;
             font-weight: 600;
+            color: #495057;
             cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 6px;
             transition: background-color 0.2s, color 0.2s;
-            white-space: nowrap;
         }}
         
-        .view-link:hover {{
-            background: #e7f1ff;
+        .view-tab:hover {{
+            background: #e9ecef;
         }}
         
-        .view-link.active {{
-            background: #007bff;
-            color: white;
+        .view-tab.active {{
+            background: white;
+            color: #007bff;
+            box-shadow: inset 0 -2px 0 #007bff;
         }}
         
         .table-pagination {{
@@ -1011,6 +1065,20 @@ def generate_html():
         .sort-indicator {{
             margin-left: 4px;
             color: #007bff;
+        }}
+        
+        .event-link {{
+            background: none;
+            border: none;
+            padding: 0;
+            color: #007bff;
+            font: inherit;
+            cursor: pointer;
+            text-align: left;
+        }}
+        
+        .event-link:hover {{
+            text-decoration: underline;
         }}
         
         .results-container {{
@@ -1235,14 +1303,20 @@ def generate_html():
                 align-items: flex-start;
             }}
             
-            .filter-group-gender {{
-                flex-direction: column;
-                align-items: stretch;
+            .view-tabs-container {{
+                padding: 0 10px;
+                margin-top: 15px;
             }}
             
-            .view-link {{
-                width: 100%;
-                text-align: center;
+            .view-tab {{
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }}
+            
+            .checkbox-group {{
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
             }}
             
             .radio-label {{
@@ -1370,7 +1444,14 @@ def generate_html():
         </div>
     </div>
     
-    <div class="filters">
+    <div class="view-tabs-container" id="viewTabsContainer">
+        <div class="view-tabs">
+            <button type="button" class="view-tab active" id="tabRecords">Klubbrekorder</button>
+            <button type="button" class="view-tab" id="tabLatest">Nyeste registreringer</button>
+        </div>
+    </div>
+    
+    <div class="filters" id="recordsFilters">
         <div class="filter-group">
             <select id="eventSelect">
                 <option value="" id="allEvents">Velg øvelse</option>
@@ -1378,7 +1459,7 @@ def generate_html():
             </select>
         </div>
         
-        <div class="filter-group filter-group-gender">
+        <div class="filter-group">
             <div class="radio-group">
                 <label class="radio-label">
                     <input type="radio" name="gender" value="Male" id="maleOption" checked>
@@ -1389,7 +1470,35 @@ def generate_html():
                     <span class="radio-text">Kvinner</span>
                 </label>
             </div>
-            <button type="button" class="view-link" id="latestRegistrationsLink">Siste innlagte registreringer</button>
+        </div>
+    </div>
+    
+    <div class="filters" id="latestFilters" style="display: none;">
+        <span class="filter-show-label" id="latestShowLabel">Vis</span>
+        <div class="filter-group">
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="latestMale" checked>
+                    <span class="checkbox-text" id="latestMaleLabel">Menn</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="latestFemale" checked>
+                    <span class="checkbox-text" id="latestFemaleLabel">Kvinner</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="filter-group">
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="latestPool25" checked>
+                    <span class="checkbox-text">25m</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="latestPool50" checked>
+                    <span class="checkbox-text">50m</span>
+                </label>
+            </div>
         </div>
     </div>
     
@@ -1474,9 +1583,10 @@ def generate_html():
                 top10Men: "Beste resultater - Menn",
                 top10Women: "Beste resultater - Kvinner",
                 top10InfoTooltip: "Denne tabellen viser de 10 resultatene med høyest FINA poeng, uavhengig av øvelse og bane. FINA poengene regnes ut i fra verdensrekorden og er derfor sammenlignbare på tvers av øvelser.",
-                latestRegistrations: "Siste innlagte registreringer",
-                latestRegistrationsMen: "Siste innlagte registreringer - Menn",
-                latestRegistrationsWomen: "Siste innlagte registreringer - Kvinner",
+                tabRecords: "Klubbrekorder",
+                tabLatest: "Nyeste registreringer",
+                showLabel: "Vis",
+                latestRegistrations: "Nyeste registreringer",
                 latestRegistrationsInfoTooltip: "Denne tabellene viser alle registreringer i alle øvelser. Tabellene er sortert på dato utøveren satt rekorden slik at de nyeste innlagte registreringene vises øverst.",
                 prevPage: "Forrige",
                 nextPage: "Neste",
@@ -1512,9 +1622,10 @@ def generate_html():
                 top10Men: "Best results - Men",
                 top10Women: "Best results - Women",
                 top10InfoTooltip: "This table shows the 10 results with the highest FINA points, regardless of event and pool. FINA points are calculated from the world record and are therefore comparable across events.",
+                tabRecords: "Club Records",
+                tabLatest: "Latest registrations",
+                showLabel: "Show",
                 latestRegistrations: "Latest registrations",
-                latestRegistrationsMen: "Latest registrations - Men",
-                latestRegistrationsWomen: "Latest registrations - Women",
                 latestRegistrationsInfoTooltip: "This table shows all registrations across all events. The table is sorted by the date the swimmer set the record, so the most recently added registrations appear at the top.",
                 prevPage: "Previous",
                 nextPage: "Next",
@@ -1527,7 +1638,7 @@ def generate_html():
         }};
         
         let currentLanguage = 'no';
-        let viewMode = 'default';
+        let viewMode = 'records';
         let latestRegistrationsPage = 1;
         let latestSortColumn = 'Dato';
         let latestSortDirection = 'desc';
@@ -1607,16 +1718,39 @@ def generate_html():
         
         function setViewMode(mode) {{
             viewMode = mode;
-            const link = document.getElementById('latestRegistrationsLink');
-            if (link) {{
-                link.classList.toggle('active', mode === 'latest');
-            }}
+            document.getElementById('tabRecords').classList.toggle('active', mode === 'records');
+            document.getElementById('tabLatest').classList.toggle('active', mode === 'latest');
+            document.getElementById('recordsFilters').style.display = mode === 'records' ? 'flex' : 'none';
+            document.getElementById('latestFilters').style.display = mode === 'latest' ? 'flex' : 'none';
         }}
         
-        function getAllRegistrations(gender) {{
-            const categories = gender === 'Male'
-                ? ['Male_25m', 'Male_50m']
-                : ['Female_25m', 'Female_50m'];
+        function navigateToEventRecord(eventName, gender) {{
+            document.getElementById('eventSelect').value = eventName;
+            if (gender === 'Male') {{
+                document.getElementById('maleOption').checked = true;
+            }} else {{
+                document.getElementById('femaleOption').checked = true;
+            }}
+            setViewMode('records');
+            filterResults();
+        }}
+        
+        function filterLatestRegistrations(results) {{
+            const showMale = document.getElementById('latestMale').checked;
+            const showFemale = document.getElementById('latestFemale').checked;
+            const show25m = document.getElementById('latestPool25').checked;
+            const show50m = document.getElementById('latestPool50').checked;
+            
+            return results.filter(row => {{
+                const genderMatch = (row.Gender === 'Male' && showMale) || (row.Gender === 'Female' && showFemale);
+                const pool = row.Pool || '';
+                const poolMatch = (pool === '25m' && show25m) || (pool === '50m' && show50m);
+                return genderMatch && poolMatch;
+            }});
+        }}
+        
+        function getAllRegistrations() {{
+            const categories = ['Male_25m', 'Male_50m', 'Female_25m', 'Female_50m'];
             const allResults = [];
             
             for (const [eventName, eventData] of Object.entries(allData)) {{
@@ -1627,6 +1761,7 @@ def generate_html():
                                 ...result,
                                 Event: eventName,
                                 Pool: result.Pool || (category.endsWith('25m') ? '25m' : '50m'),
+                                Gender: result.Gender || (category.startsWith('Male') ? 'Male' : 'Female'),
                                 Pos: index + 1
                             }});
                         }});
@@ -1678,7 +1813,11 @@ def generate_html():
             document.getElementById('allEvents').textContent = translations[lang].allEvents;
             document.querySelector('#maleOption + .radio-text').textContent = translations[lang].maleOption;
             document.querySelector('#femaleOption + .radio-text').textContent = translations[lang].femaleOption;
-            document.getElementById('latestRegistrationsLink').textContent = translations[lang].latestRegistrations;
+            document.getElementById('latestMaleLabel').textContent = translations[lang].maleOption;
+            document.getElementById('latestFemaleLabel').textContent = translations[lang].femaleOption;
+            document.getElementById('latestShowLabel').textContent = translations[lang].showLabel;
+            document.getElementById('tabRecords').textContent = translations[lang].tabRecords;
+            document.getElementById('tabLatest').textContent = translations[lang].tabLatest;
             
             // Update event dropdown options
             const eventSelect = document.getElementById('eventSelect');
@@ -1707,17 +1846,19 @@ def generate_html():
         }}
         
         function filterResults() {{
-            const selectedEvent = document.getElementById('eventSelect').value;
-            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-            
             const container = document.getElementById('resultsContainer');
             container.innerHTML = '';
             
-            if (selectedEvent) {{
-                setViewMode('default');
-                showEventResults(selectedEvent, selectedGender);
-            }} else if (viewMode === 'latest') {{
+            if (viewMode === 'latest') {{
                 showLatestRegistrations(latestRegistrationsPage);
+                return;
+            }}
+            
+            const selectedEvent = document.getElementById('eventSelect').value;
+            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+            
+            if (selectedEvent) {{
+                showEventResults(selectedEvent, selectedGender);
             }} else {{
                 showBestSwimmers();
             }}
@@ -1726,8 +1867,13 @@ def generate_html():
         function showLatestRegistrations(page = 1) {{
             const container = document.getElementById('resultsContainer');
             container.innerHTML = '';
-            const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-            const allResults = sortLatestRegistrations(getAllRegistrations(selectedGender));
+            const allResults = sortLatestRegistrations(filterLatestRegistrations(getAllRegistrations()));
+            
+            if (allResults.length === 0) {{
+                container.innerHTML = `<div class="no-data">${{translations[currentLanguage].noResultsMessage}}</div>`;
+                return;
+            }}
+            
             const pageSize = 10;
             const totalPages = Math.max(1, Math.ceil(allResults.length / pageSize));
             const currentPage = Math.min(Math.max(1, page), totalPages);
@@ -1735,16 +1881,13 @@ def generate_html():
             
             const pageResults = allResults.slice((currentPage - 1) * pageSize, currentPage * pageSize);
             const startRank = (currentPage - 1) * pageSize;
-            const tableTitle = selectedGender === 'Male'
-                ? translations[currentLanguage].latestRegistrationsMen
-                : translations[currentLanguage].latestRegistrationsWomen;
             
             const tableDiv = document.createElement('div');
             tableDiv.className = 'results-table';
             tableDiv.innerHTML = `
                 <div class="table-header">
                     <span class="table-header-title">
-                        <span>${{tableTitle}}</span>
+                        <span>${{translations[currentLanguage].latestRegistrations}}</span>
                         <span class="info-icon" data-tooltip="${{translations[currentLanguage].latestRegistrationsInfoTooltip}}" tabindex="0" aria-label="${{translations[currentLanguage].latestRegistrationsInfoTooltip}}"></span>
                     </span>
                     <span>${{translations[currentLanguage].lastUpdated}}: {latest_date}</span>
@@ -1769,7 +1912,11 @@ def generate_html():
                                 <tr>
                                     <td class="rank">${{startRank + index + 1}}</td>
                                     <td>${{row.Name || ''}}</td>
-                                    <td>${{eventTranslations[currentLanguage][row.Event] || row.Event || ''}}</td>
+                                    <td>
+                                        <button type="button" class="event-link" data-event="${{row.Event || ''}}" data-gender="${{row.Gender || ''}}">
+                                            ${{eventTranslations[currentLanguage][row.Event] || row.Event || ''}}
+                                        </button>
+                                    </td>
                                     <td>${{row.Pool || ''}}</td>
                                     <td>${{row.Pos || ''}}</td>
                                     <td>${{row.Tid || ''}}</td>
@@ -1792,6 +1939,10 @@ def generate_html():
             
             tableDiv.querySelectorAll('th.sortable').forEach(th => {{
                 th.addEventListener('click', () => handleLatestSort(th.dataset.sort));
+            }});
+            
+            tableDiv.querySelectorAll('.event-link').forEach(btn => {{
+                btn.addEventListener('click', () => navigateToEventRecord(btn.dataset.event, btn.dataset.gender));
             }});
             
             const prevBtn = tableDiv.querySelector('.pagination-prev');
@@ -2017,15 +2168,22 @@ def generate_html():
         // Add event listeners
         document.getElementById('eventSelect').addEventListener('change', filterResults);
         document.querySelectorAll('input[name="gender"]').forEach(radio => {{
-            radio.addEventListener('change', () => {{
-                if (viewMode === 'latest') {{
-                    latestRegistrationsPage = 1;
-                }}
+            radio.addEventListener('change', filterResults);
+        }});
+        
+        ['latestMale', 'latestFemale', 'latestPool25', 'latestPool50'].forEach(id => {{
+            document.getElementById(id).addEventListener('change', () => {{
+                latestRegistrationsPage = 1;
                 filterResults();
             }});
         }});
         
-        document.getElementById('latestRegistrationsLink').addEventListener('click', () => {{
+        document.getElementById('tabRecords').addEventListener('click', () => {{
+            setViewMode('records');
+            filterResults();
+        }});
+        
+        document.getElementById('tabLatest').addEventListener('click', () => {{
             document.getElementById('eventSelect').value = '';
             latestRegistrationsPage = 1;
             latestSortColumn = 'Dato';
@@ -2039,7 +2197,7 @@ def generate_html():
             document.getElementById('eventSelect').value = '';
             document.getElementById('maleOption').checked = true;
             latestRegistrationsPage = 1;
-            setViewMode('default');
+            setViewMode('records');
             filterResults();
         }});
         
@@ -2050,7 +2208,11 @@ def generate_html():
         document.getElementById('allEvents').textContent = translations[currentLanguage].allEvents;
         document.querySelector('#maleOption + .radio-text').textContent = translations[currentLanguage].maleOption;
         document.querySelector('#femaleOption + .radio-text').textContent = translations[currentLanguage].femaleOption;
-        document.getElementById('latestRegistrationsLink').textContent = translations[currentLanguage].latestRegistrations;
+        document.getElementById('latestMaleLabel').textContent = translations[currentLanguage].maleOption;
+        document.getElementById('latestFemaleLabel').textContent = translations[currentLanguage].femaleOption;
+        document.getElementById('latestShowLabel').textContent = translations[currentLanguage].showLabel;
+        document.getElementById('tabRecords').textContent = translations[currentLanguage].tabRecords;
+        document.getElementById('tabLatest').textContent = translations[currentLanguage].tabLatest;
         
         // Update subtext elements
         const shortText = document.querySelector('.subtext-short');
